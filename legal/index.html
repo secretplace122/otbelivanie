@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Документы | Студия отбеливания «Улыбка» | Солнечногорск</title>
+    <meta name="robots" content="noindex, follow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="page-legal">
+    <header class="header">
+        <div class="container header__container">
+            <a href="/" class="logo">
+                <span class="logo__icon"><i class="fas fa-tooth"></i></span>
+                <span class="logo__text">Студия <span class="logo__text--accent">Улыбка</span></span>
+                <span class="logo__location">Солнечногорск</span>
+            </a>
+            <nav class="nav">
+                <ul class="nav__list">
+                    <li><a href="/#services" class="nav__link">Услуги</a></li>
+                    <li><a href="/#gallery" class="nav__link">Галерея</a></li>
+                    <li><a href="/#price" class="nav__link">Цены</a></li>
+                    <li><a href="/#contact" class="nav__link">Контакты</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="legal-page">
+            <div class="container">
+                <h1 class="page-title">Правовая информация и сертификаты</h1>
+                <p class="page-subtitle">Официальные документы, подтверждающие качество и безопасность наших услуг.</p>
+                <div class="legal__content">
+                    <div class="legal__text">
+                        <h2>Политика конфиденциальности</h2>
+                        <p>Настоящая Политика конфиденциальности персональных данных действует в отношении всей информации, которую ИП «Улыбка» (ОГРНИП 123456789012), расположенный по адресу: Московская область, г. Солнечногорск, ул. Банковская, д. 4, может получить о Пользователе во время использования сайта.</p>
+                        <p>Мы серьезно относимся к защите персональных данных. Все процедуры отбеливания проводятся с использованием сертифицированных материалов Amazing White.</p>
+                        <h2>Лицензии и разрешения</h2>
+                        <p>Косметологическое отбеливание зубов не является медицинской услугой и не подлежит лицензированию согласно ПП РФ. Используемые материалы имеют сертификаты соответствия.</p>
+                        <h2>Пользовательское соглашение</h2>
+                        <p>Информация на сайте носит ознакомительный характер. Имеются противопоказания. Необходима консультация специалиста.</p>
+                    </div>
+                    <div class="legal__gallery">
+                        <h2 class="legal__gallery-title">Сертификаты и документы</h2>
+                        <div class="docs-grid">
+                            <div class="doc-card" data-src="../img/cert-1.jpg">
+                                <img src="../img/cert-1.jpg" alt="Сертификат Amazing White" loading="lazy">
+                                <span class="doc-card__label">Сертификат на гель</span>
+                            </div>
+                            <div class="doc-card" data-src="../img/cert-2.jpg">
+                                <img src="../img/cert-2.jpg" alt="Декларация соответствия" loading="lazy">
+                                <span class="doc-card__label">Декларация о соответствии</span>
+                            </div>
+                        </div>
+                        <p class="legal__note">* PDF версии документов предоставляются по запросу.</p>
+                    </div>
+                </div>
+                <div class="back-link">
+                    <a href="/" class="btn btn--outline"><i class="fas fa-arrow-left"></i> Вернуться на главную</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__bottom">
+                <div class="footer__copyright">© <span id="currentYear"></span> Студия «Улыбка»</div>
+                <div class="footer__legal"><a href="/legal/">Политика обработки данных</a></div>
+            </div>
+        </div>
+    </footer>
+
+    <div class="lightbox" id="lightbox">
+        <span class="lightbox__close" id="lightboxClose">&times;</span>
+        <img class="lightbox__image" id="lightboxImage" src="" alt="">
+    </div>
+
+    <script>
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightboxImage');
+        const lightboxClose = document.getElementById('lightboxClose');
+        function openLightbox(src) {
+            if (!lightbox || !lightboxImg) return;
+            lightboxImg.src = src;
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        if (lightboxClose) {
+            lightboxClose.addEventListener('click', () => { lightbox.classList.remove('active'); document.body.style.overflow = ''; });
+            lightbox.addEventListener('click', (e) => { if (e.target === lightbox) { lightbox.classList.remove('active'); document.body.style.overflow = ''; } });
+        }
+        document.querySelectorAll('.doc-card').forEach(card => {
+            card.addEventListener('click', () => { const src = card.dataset.src; if (src) openLightbox(src); });
+        });
+    </script>
+</body>
+</html>
