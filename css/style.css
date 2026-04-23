@@ -300,6 +300,7 @@ h1, h2, h3, h4 {
     border-radius: 40px;
     backdrop-filter: blur(4px);
     box-shadow: var(--shadow-sm);
+    background: linear-gradient(135deg, #ffffff 0%, #f0fcfc 100%);
 }
 .feature-item__icon {
     color: var(--primary);
@@ -502,7 +503,7 @@ h1, h2, h3, h4 {
     color: var(--text-muted);
 }
 .cert-card {
-    background: white;
+    background: linear-gradient(135deg, #ffffff 0%, #f0fcfc 100%);
     padding: 32px;
     border-radius: var(--radius);
     box-shadow: var(--shadow-lg);
