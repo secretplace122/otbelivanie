@@ -512,23 +512,22 @@ h1, h2, h3, h4 {
     border-radius: var(--radius);
     box-shadow: var(--shadow-lg);
     border: 1px solid rgba(0,139,139,0.1);
-    position: relative;
-    padding-left: 92px;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
 }
 .cert-card__icon {
-    position: absolute;
-    left: 32px;
-    top: 32px;
     font-size: 2.5rem;
     color: var(--primary);
+    flex-shrink: 0;
 }
-.cert-card__body {
-    display: block;
+.cert-card__content {
+    flex: 1;
 }
-.cert-card__text h3 {
+.cert-card__content h3 {
     margin-bottom: 16px;
 }
-.cert-card__text p {
+.cert-card__content p {
     margin-bottom: 24px;
 }
 

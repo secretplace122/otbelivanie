@@ -142,10 +142,33 @@
     if (form) {
         form.addEventListener('submit', (e) => {
             e.preventDefault();
-            const phone = form.querySelector('input[name="phone"]');
-            if (phone && !phone.value.trim()) { alert('Укажите телефон'); return; }
-            alert('Спасибо! Мы свяжемся с вами в ближайшее время.');
-            form.reset();
+            const nameInput = form.querySelector('input[name="name"]');
+            const phoneInput = form.querySelector('input[name="phone"]');
+            if (!nameInput.value.trim() || !phoneInput.value.trim()) {
+                alert('Пожалуйста, заполните имя и телефон');
+                return;
+            }
+            const formData = {
+                name: nameInput.value.trim(),
+                phone: phoneInput.value.trim(),
+                service: 'Консультация',
+                page: 'Главная',
+                source: 'website'
+            };
+            const url = 'https://script.google.com/macros/s/AKfycbyszsAkcHdzaRD981FxAIkP1SyIe8CIKqwA1uzuoywssUUuavBxQ4hLTMBVjelhNlsF1Q/exec';
+            fetch(url, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            })
+            .then(() => {
+                alert('Спасибо! Мы свяжемся с вами в ближайшее время.');
+                form.reset();
+            })
+            .catch(() => {
+                alert('Ошибка отправки. Пожалуйста, позвоните нам.');
+            });
         });
     }
 
@@ -173,7 +196,7 @@
     if (document.getElementById('yandexMap')) {
         if (typeof ymaps === 'undefined') {
             const script = document.createElement('script');
-            script.src = 'https://api-maps.yandex.ru/2.1/?apikey=ваш_api_ключ&lang=ru_RU';
+            script.src = 'https://api-maps.yandex.ru/2.1/?apikey=api&lang=ru_RU';
             script.onload = initMap;
             document.head.appendChild(script);
         } else {
