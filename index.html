@@ -205,7 +205,6 @@
                             <div class="gallery__slide"><div class="gallery-card"><img src="img/gallery-11.webp" alt="Студия улыбка 11" loading="lazy"></div></div>
                             <div class="gallery__slide"><div class="gallery-card"><img src="img/gallery-12.webp" alt="Студия улыбка 12" loading="lazy"></div></div>
                             <div class="gallery__slide"><div class="gallery-card"><img src="img/gallery-13.webp" alt="Студия улыбка 13" loading="lazy"></div></div>
-                            <div class="gallery__slide"><div class="gallery-card"><img src="img/gallery-14.webp" alt="Отбеливание 14" loading="lazy"></div></div>
                         </div>
                     </div>
                     <div class="gallery__nav">
@@ -231,10 +230,12 @@
                             <a href="https://vk.ru/id1037515421" target="_blank" class="social-link social-link--vk" aria-label="ВКонтакте"><i class="fab fa-vk"></i></a>
                             <a href="https://www.instagram.com/whiteee_studio?igsh=MWExcXJicm55cm4wcg==" target="_blank" class="social-link social-link--inst" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
                         </div>
+                        <p class="contact__consult-text">Если вам нужна консультация, просто напишите нам.</p>
                         <form class="contact__form" id="contactForm">
                             <h3>Запись на консультацию</h3>
                             <div class="form-group"><input type="text" name="name" placeholder="Ваше имя" required></div>
-                            <div class="form-group"><input type="tel" name="phone" placeholder="+7 (___) ___-__-__" required></div>
+                            <div class="form-group"><input type="tel" name="phone" id="phoneInput" placeholder="+7 (___) ___-__-__" required></div>
+                            <div class="form-group"><textarea name="message" placeholder="Ваше сообщение или вопрос..." rows="3"></textarea></div>
                             <button type="submit" class="btn btn--primary btn--block">Отправить</button>
                             <p class="form__privacy">Нажимая, вы соглашаетесь на обработку персональных данных.</p>
                         </form>
@@ -340,6 +341,10 @@
         <span class="lightbox__close" id="lightboxClose">&times;</span>
         <img class="lightbox__image" id="lightboxImage" src="" alt="">
     </div>
+
+    <a href="tel:+79151347177" class="floating-call-btn" aria-label="Позвонить">
+        <i class="fas fa-phone"></i>
+    </a>
 
     <script src="https://api-maps.yandex.ru/2.1/?apikey=ваш_api_ключ&lang=ru_RU"></script>
     <script src="js/script.js"></script>

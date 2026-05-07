@@ -2,6 +2,11 @@
 (function() {
     'use strict';
 
+    const nameInputEl = document.querySelector('input[name="name"]');
+    if (nameInputEl) nameInputEl.setAttribute('maxlength', '30');
+    const messageTextarea = document.querySelector('textarea[name="message"]');
+    if (messageTextarea) messageTextarea.setAttribute('maxlength', '500');
+
     const yearSpan = document.getElementById('currentYear');
     if (yearSpan) yearSpan.textContent = new Date().getFullYear();
 
@@ -138,20 +143,152 @@
         });
     });
 
+    function applyPhoneMask(input) {
+        let previousDigits = '';
+
+        input.addEventListener('input', function(e) {
+            let cursorPos = input.selectionStart;
+            let value = input.value;
+            let digits = value.replace(/\D/g, '');
+
+            if (!digits.startsWith('7') && digits.length > 0) {
+                digits = '7' + digits;
+            }
+            digits = digits.slice(0, 11);
+            const newDigits = digits;
+
+            const isDigitAdded = newDigits.length > previousDigits.length;
+            const isDigitRemoved = newDigits.length < previousDigits.length;
+
+            let formatted = '+7';
+            if (newDigits.length > 1) formatted += ' (' + newDigits.substring(1, 4);
+            if (newDigits.length >= 4) formatted += ') ' + newDigits.substring(4, 7);
+            if (newDigits.length >= 7) formatted += '-' + newDigits.substring(7, 9);
+            if (newDigits.length >= 9) formatted += '-' + newDigits.substring(9, 11);
+
+            input.value = formatted;
+
+            let newCursorPos = cursorPos;
+            if (isDigitAdded) {
+                let digitCount = 0;
+                for (let i = 0; i < formatted.length; i++) {
+                    if (/\d/.test(formatted[i])) {
+                        digitCount++;
+                        if (digitCount === newDigits.length) {
+                            newCursorPos = i + 1;
+                            break;
+                        }
+                    }
+                }
+            } else if (isDigitRemoved) {
+                let digitCount = 0;
+                for (let i = formatted.length - 1; i >= 0; i--) {
+                    if (/\d/.test(formatted[i])) {
+                        digitCount++;
+                        if (digitCount === newDigits.length) {
+                            newCursorPos = i + 1;
+                            break;
+                        }
+                    }
+                }
+                if (newDigits.length === 0) newCursorPos = 2;
+            } else {
+                let digitCount = 0;
+                for (let i = 0; i < formatted.length; i++) {
+                    if (/\d/.test(formatted[i])) {
+                        digitCount++;
+                        if (digitCount === previousDigits.length && previousDigits.length <= newDigits.length) {
+                            newCursorPos = i + 1;
+                            break;
+                        }
+                    }
+                }
+            }
+            newCursorPos = Math.min(formatted.length, Math.max(2, newCursorPos));
+            input.setSelectionRange(newCursorPos, newCursorPos);
+            previousDigits = newDigits;
+        });
+
+        input.addEventListener('keydown', function(e) {
+            if (e.key === 'Backspace' || e.key === 'Delete') {
+                const cursorPos = input.selectionStart;
+                const value = input.value;
+                let digits = value.replace(/\D/g, '');
+                let posInDigits = 0;
+                for (let i = 0; i < cursorPos && i < value.length; i++) {
+                    if (/\d/.test(value[i])) posInDigits++;
+                }
+                if (e.key === 'Backspace' && posInDigits > 0) {
+                    posInDigits--;
+                } else if (e.key === 'Delete' && posInDigits < digits.length) {
+                } else {
+                    e.preventDefault();
+                    return;
+                }
+                const newDigits = digits.slice(0, posInDigits) + digits.slice(posInDigits + 1);
+                let formatted = '+7';
+                if (newDigits.length > 1) formatted += ' (' + newDigits.substring(1, 4);
+                if (newDigits.length >= 4) formatted += ') ' + newDigits.substring(4, 7);
+                if (newDigits.length >= 7) formatted += '-' + newDigits.substring(7, 9);
+                if (newDigits.length >= 9) formatted += '-' + newDigits.substring(9, 11);
+                input.value = formatted;
+                let newCursorPos = 2;
+                let digitCount = 0;
+                for (let i = 0; i < formatted.length; i++) {
+                    if (/\d/.test(formatted[i])) {
+                        digitCount++;
+                        if (digitCount === posInDigits) {
+                            newCursorPos = i + 1;
+                            break;
+                        }
+                    }
+                }
+                if (posInDigits === 0) newCursorPos = 2;
+                input.setSelectionRange(newCursorPos, newCursorPos);
+                previousDigits = newDigits;
+                e.preventDefault();
+            }
+        });
+
+        input.addEventListener('focus', function() {
+            if (!input.value.startsWith('+7')) {
+                input.value = '+7 (';
+                input.setSelectionRange(4, 4);
+                previousDigits = '';
+            }
+        });
+
+        input.addEventListener('blur', function() {
+            if (input.value === '+7 (' || input.value === '+7') {
+                input.value = '';
+                previousDigits = '';
+            }
+        });
+
+        previousDigits = input.value.replace(/\D/g, '');
+    }
+
+    const phoneInput = document.getElementById('phoneInput');
+    if (phoneInput) {
+        applyPhoneMask(phoneInput);
+    }
+
     const form = document.getElementById('contactForm');
     if (form) {
         form.addEventListener('submit', (e) => {
             e.preventDefault();
             const nameInput = form.querySelector('input[name="name"]');
-            const phoneInput = form.querySelector('input[name="phone"]');
-            if (!nameInput.value.trim() || !phoneInput.value.trim()) {
+            const phoneInputField = form.querySelector('input[name="phone"]');
+            const messageInput = form.querySelector('textarea[name="message"]');
+            if (!nameInput.value.trim() || !phoneInputField.value.trim()) {
                 alert('Пожалуйста, заполните имя и телефон');
                 return;
             }
+            const cleanPhone = phoneInputField.value.replace(/\D/g, '');
             const formData = {
                 name: nameInput.value.trim(),
-                phone: phoneInput.value.trim(),
-                service: 'Консультация',
+                phone: cleanPhone,
+                message: messageInput ? messageInput.value.trim() : '',
                 page: 'Главная',
                 source: 'website'
             };
@@ -165,6 +302,7 @@
             .then(() => {
                 alert('Спасибо! Мы свяжемся с вами в ближайшее время.');
                 form.reset();
+                if (phoneInputField) phoneInputField.value = '';
             })
             .catch(() => {
                 alert('Ошибка отправки. Пожалуйста, позвоните нам.');
