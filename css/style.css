@@ -203,6 +203,13 @@ h4 {
     font-weight: 600;
 }
 
+.header__mobile-call {
+    display: none;
+    font-size: 1.4rem;
+    color: var(--primary);
+    padding: 8px;
+}
+
 .burger {
     display: none;
     flex-direction: column;
@@ -653,7 +660,7 @@ h4 {
 .contact__line {
     display: flex;
     align-items: flex-start;
-    gap: 3px;
+    gap: 1px;
     margin-bottom: 16px;
 }
 
@@ -1000,10 +1007,34 @@ h4 {
 }
 
 @media (max-width: 768px) {
+    .header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+    }
+
+    .header__container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
 
     .nav,
     .header__actions {
         display: none;
+    }
+
+    .logo {
+        margin-right: auto;
+    }
+
+    .header__mobile-call {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 4px;
     }
 
     .burger {
@@ -1022,6 +1053,10 @@ h4 {
     .faq,
     .contact {
         padding: 40px 0;
+    }
+
+    .hero {
+        padding-top: 100px;
     }
 
     .hero__container,
@@ -1067,19 +1102,11 @@ h4 {
     .faq__grid {
         padding: 0 8px;
     }
-
-    .floating-call-btn {
-        width: 52px;
-        height: 52px;
-        font-size: 1.5rem;
-        bottom: 16px;
-        right: 16px;
-    }
 }
 
 @media (max-width: 550px) {
     .container {
-        padding: 0 16px;
+        padding: 0 12px;
     }
 
     :root {
@@ -1091,7 +1118,7 @@ h4 {
     }
 
     .hero {
-        padding: 30px 0;
+        padding: 90px 0 30px;
     }
 
     .hero__title {
@@ -1130,7 +1157,7 @@ h4 {
     }
 
     .contact__info {
-        padding: 24px 16px;
+        padding: 24px 12px;
     }
 
     .faq-question {
@@ -1187,10 +1214,6 @@ h4 {
 
     .contact__map {
         height: 250px;
-    }
-
-    .social-links {
-        justify-content: center;
     }
 
     .contact__wrapper {
